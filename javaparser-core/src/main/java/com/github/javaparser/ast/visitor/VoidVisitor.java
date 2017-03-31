@@ -309,4 +309,9 @@ public interface VoidVisitor<A> {
 
     @Generated("com.github.javaparser.generator.core.visitor.VoidVisitorGenerator")
     void visit(ReceiverParameter n, A arg);
+
+    VoidRuleVisitor DUMMY_RULE_VISITOR = new VoidRuleVisitor() {
+    };
+
+    VoidRuleVisitor<A> getRuleVisitor();
 }

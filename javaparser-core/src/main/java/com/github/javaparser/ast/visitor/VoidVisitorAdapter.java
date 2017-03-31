@@ -39,6 +39,8 @@ import javax.annotation.Generated;
  */
 public abstract class VoidVisitorAdapter<A> implements VoidVisitor<A> {
 
+    private VoidRuleVisitor<A> ruleVisitor = new VoidRuleVisitorAdapter<>(this);
+
     @Override
     @Generated("com.github.javaparser.generator.core.visitor.VoidVisitorAdapterGenerator")
     public void visit(final AnnotationDeclaration n, final A arg) {
@@ -748,6 +750,11 @@ public abstract class VoidVisitorAdapter<A> implements VoidVisitor<A> {
         n.getModuleNames().forEach(p -> p.accept(this, arg));
         n.getName().accept(this, arg);
         n.getComment().ifPresent(l -> l.accept(this, arg));
+    }
+
+    @Override
+    public VoidRuleVisitor<A> getRuleVisitor() {
+        return ruleVisitor;
     }
 
     @Override
