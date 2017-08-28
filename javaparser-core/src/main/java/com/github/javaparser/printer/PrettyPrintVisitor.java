@@ -194,7 +194,7 @@ public class PrettyPrintVisitor implements VoidVisitor<Void> {
         }
     }
 
-    private void printTypeArgs(final NodeWithTypeArguments<?> nodeWithTypeArguments, final Void arg) {
+    public void printTypeArgs(final NodeWithTypeArguments<?> nodeWithTypeArguments, final Void arg) {
         NodeList<Type> typeArguments = nodeWithTypeArguments.getTypeArguments().orElse(null);
         if (!isNullOrEmpty(typeArguments)) {
             printer.print("<");
@@ -223,7 +223,7 @@ public class PrettyPrintVisitor implements VoidVisitor<Void> {
         }
     }
 
-    private void printArguments(final NodeList<Expression> args, final Void arg) {
+    public void printArguments(final NodeList<Expression> args, final Void arg) {
         printer.print("(");
         Position cursorRef = printer.getCursor();
         if (!isNullOrEmpty(args)) {
@@ -271,7 +271,7 @@ public class PrettyPrintVisitor implements VoidVisitor<Void> {
         printer.print(postfix);
     }
 
-    void printComment(final Optional<Comment> comment, final Void arg) {
+    public void printComment(final Optional<Comment> comment, final Void arg) {
         comment.ifPresent(c -> c.accept(this, arg));
     }
 
