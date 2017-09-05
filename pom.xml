@@ -6,10 +6,6 @@
         <module>javaparser-core-generators</module>
         <module>javaparser-metamodel-generator</module>
         <module>drlx-compiler</module>
-        <module>javaparser-symbol-solver-model</module>
-        <module>javaparser-symbol-solver-logic</module>
-        <module>javaparser-symbol-solver-core</module>
-        <module>javaparser-symbol-solver-testing</module>
     </modules>
 
     <groupId>com.github.javaparser</groupId>
