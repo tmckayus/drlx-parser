@@ -5,7 +5,7 @@
         <module>javaparser-testing</module>
         <module>javaparser-core-generators</module>
         <module>javaparser-metamodel-generator</module>
-        <module>drlx-compiler</module>
+        <module>drlx-parser</module>
     </modules>
 
     <groupId>com.github.javaparser</groupId>
@@ -142,7 +142,7 @@
         <connection>scm:git:git://github.com/javaparser/javaparser.git</connection>
         <developerConnection>scm:git:git@github.com:javaparser/javaparser.git</developerConnection>
         <url>https://github.com/javaparser/javaparser.git</url>
-        <tag>javaparser-parent-3.5.10</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <issueManagement>
