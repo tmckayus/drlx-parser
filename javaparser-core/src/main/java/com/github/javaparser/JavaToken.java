@@ -195,7 +195,7 @@ public class JavaToken {
 
     public enum Category {
 
-        WHITESPACE_NO_EOL, EOL, COMMENT, IDENTIFIER, KEYWORD, LITERAL, SEPARATOR, OPERATOR;
+        WHITESPACE_NO_EOL, EOL, COMMENT, IDENTIFIER, KEYWORD, LITERAL, SEPARATOR, OPERATOR, DRLX;
 
         public boolean isWhitespaceOrComment() {
             return isWhitespace() || this == COMMENT;

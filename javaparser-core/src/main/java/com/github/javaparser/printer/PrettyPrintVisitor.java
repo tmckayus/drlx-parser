@@ -94,6 +94,7 @@ import com.github.javaparser.ast.stmt.SwitchStmt;
 import com.github.javaparser.ast.stmt.SynchronizedStmt;
 import com.github.javaparser.ast.stmt.ThrowStmt;
 import com.github.javaparser.ast.stmt.TryStmt;
+import com.github.javaparser.ast.stmt.UnparsableStmt;
 import com.github.javaparser.ast.stmt.WhileStmt;
 import com.github.javaparser.ast.type.ArrayType;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
@@ -112,6 +113,7 @@ import com.github.javaparser.ast.visitor.VoidVisitor;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static com.github.javaparser.ast.Node.Parsedness.UNPARSABLE;
 import static com.github.javaparser.utils.PositionUtils.sortByBeginPosition;
@@ -339,6 +341,7 @@ public class PrettyPrintVisitor implements VoidVisitor<Void> {
     @Override
     public void visit(final NameExpr n, final Void arg) {
         printComment(n.getComment(), arg);
+        IntStream.range(0, n.getBackReferencesCount()).forEach(s -> printer.print("../"));
         n.getName().accept(this, arg);
 
         printOrphanCommentsEnding(n);
@@ -691,7 +694,7 @@ public class PrettyPrintVisitor implements VoidVisitor<Void> {
 
     @Override
     public void visit(HalfBinaryExpr n, Void arg) {
-        printJavaComment(n.getComment(), arg);
+        printComment(n.getComment(), arg);
         printer.print(n.getOperator().asString());
         printer.print(" ");
         n.getRight().accept(this, arg);
@@ -1635,9 +1638,8 @@ public class PrettyPrintVisitor implements VoidVisitor<Void> {
         this.ruleVisitor = ruleVisitor;
     }
 
-    private void printOrphanCommentsBeforeThisChildNode( final Node node ) {
     @Override
-    public void visit(UnparsableStmt n, Void arg) {
+    public void visit (UnparsableStmt n, Void arg) {
         printer.print("???;");
     }
 
