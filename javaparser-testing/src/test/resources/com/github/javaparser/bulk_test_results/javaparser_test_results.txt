@@ -85,6 +85,10 @@ javaparser-core/src/main/java/com/github/javaparser/ast/CompilationUnit.java
 (line 274,col 29) Parse error. Found " not", expected "}"
 (line 526,col 9) Parse error. Found " not", expected one of  "else" "}"
 
+javaparser-core/src/main/java/com/github/javaparser/ast/drlx/expr/HalfBinaryExpr.java
+(line 112,col 9) Parse error. Found " not", expected one of  "else" "}"
+(line 123,col 9) Parse error. Found " not", expected one of  "else" "}"
+
 javaparser-core/src/main/java/com/github/javaparser/ast/expr/AnnotationExpr.java
 (line 74,col 9) Parse error. Found " not", expected one of  "else" "}"
 
@@ -132,10 +136,6 @@ javaparser-core/src/main/java/com/github/javaparser/ast/expr/FieldAccessExpr.jav
 (line 105,col 9) Parse error. Found " not", expected one of  "else" "}"
 (line 155,col 9) Parse error. Found " not", expected one of  "else" "}"
 (line 179,col 9) Parse error. Found " not", expected one of  "else" "}"
-
-javaparser-core/src/main/java/com/github/javaparser/ast/expr/HalfBinaryExpr.java
-(line 110,col 9) Parse error. Found " not", expected one of  "else" "}"
-(line 121,col 9) Parse error. Found " not", expected one of  "else" "}"
 
 javaparser-core/src/main/java/com/github/javaparser/ast/expr/InstanceOfExpr.java
 (line 100,col 9) Parse error. Found " not", expected one of  "else" "}"
