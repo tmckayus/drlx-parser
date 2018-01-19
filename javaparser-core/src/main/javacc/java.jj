@@ -280,6 +280,7 @@ TOKEN :
 | < PROVIDES: "provides" >
 | < TRANSITIVE: "transitive" >
 | < RULE: "rule" >
+| < NOT: " not" >
 }
 
 /* LITERALS */
@@ -1707,6 +1708,8 @@ Expression PreDecrementExpression():
 }
 
 // drlx start
+
+
 Expression HalfBinaryExpression():
 {
 	Expression ret;
@@ -1728,10 +1731,31 @@ Expression HalfBinaryExpression():
         ret = new HalfBinaryExpr(range(begin, token()), ret, op);
 	  }
 	|
-	  ret = UnaryExpressionNotPlusMinus()
+	  ret = DrlxExpressionSwitch()
   )
   { return isDrl ? asDrlNode(ret) : ret; }
 }
+
+Expression DrlxExpressionSwitch():
+{
+	Expression ret;
+    boolean isDrl = false;
+}
+{
+  (
+  LOOKAHEAD(PointFreeExpr(), { drlParsing })
+    ret = PointFreeExpr()
+  |
+  LOOKAHEAD( HalfPointFreeExpr(), { drlParsing })
+    ret = HalfPointFreeExpr()
+  |
+  ret = UnaryExpressionNotPlusMinus()
+  )
+
+  { return isDrl ? asDrlNode(ret) : ret; }
+}
+
+
 // drlx end
 
 Expression UnaryExpressionNotPlusMinus():
@@ -3012,9 +3036,6 @@ DrlxExpression DrlxExpression():
 {
   [ LOOKAHEAD(2) decl = SimpleName() ":" ]
   (
-  LOOKAHEAD(PointFreeExpr())
-    expr = PointFreeExpr()
-  |
   LOOKAHEAD(OOPathExpr())
     expr = OOPathExpr()
   |
@@ -3024,7 +3045,8 @@ DrlxExpression DrlxExpression():
   { return new DrlxExpression(decl, expr); }
 }
 
-PointFreeExpr PointFreeExpr():
+
+Expression PointFreeExpr():
 {
     JavaToken begin;
     Expression left;
@@ -3036,26 +3058,74 @@ PointFreeExpr PointFreeExpr():
     Expression tempExpr;
 }
 {
-    left = Expression() { begin=token(); }
     (
-                  " not"
-                  { negated = true; }
-    )*
-    operator = SimpleName()
-    [
-      LOOKAHEAD("[" TemporalLiteral() ",")
-      ( "[" arg1 = TemporalLiteral() "," arg2 = TemporalLiteral() "]" )
-      |
-      ( "[" arg1 = TemporalLiteral() "]" )
-    ]
-    (
-      LOOKAHEAD(1)
-      ( right = Expressions())
-      |
-      ( tempExpr = Expression() { right = add(right, tempExpr); } )
+        (
+            left = PrimaryPrefix() { begin=token(); }
+            (
+                          <NOT>
+                          { negated = true; }
+            )*
+
+            (
+                operator = SimpleName()
+                [
+                  LOOKAHEAD("[" TemporalLiteral() ",")
+                  ( "[" arg1 = TemporalLiteral() "," arg2 = TemporalLiteral() "]" )
+                  |
+                  ( "[" arg1 = TemporalLiteral() "]" )
+                ]
+                (
+                  LOOKAHEAD(1)
+                  ( right = Expressions())
+                  |
+                  ( tempExpr = PrimaryPrefix() { right = add(right, tempExpr); } )
+                )
+                  {
+                    return new PointFreeExpr(range(begin, token()), left, right, operator, negated, arg1, arg2 );
+                  }
+            )
+        )
     )
-      { return new PointFreeExpr(range(begin, token()), left, right, operator, negated, arg1, arg2 ); }
 }
+
+
+Expression HalfPointFreeExpr():
+{
+    JavaToken begin = token();
+    NodeList<Expression> right = emptyList();
+    SimpleName operator;
+    boolean negated = false;
+    Expression arg1 = null;
+    Expression arg2 = null;
+    Expression tempExpr;
+}
+{
+    (
+        (
+            (
+                          <NOT>
+                          { negated = true; }
+            )*
+            operator = SimpleName() { begin = token(); }
+            [
+              LOOKAHEAD("[" TemporalLiteral() ",")
+              ( "[" arg1 = TemporalLiteral() "," arg2 = TemporalLiteral() "]" )
+              |
+              ( "[" arg1 = TemporalLiteral() "]" )
+            ]
+            (
+              LOOKAHEAD(1)
+              ( right = Expressions())
+              |
+              ( tempExpr = PrimaryPrefix() { right = add(right, tempExpr); } )
+            )
+              {
+                return new HalfPointFreeExpr(range(begin, token()), right, operator, negated, arg1, arg2 );
+              }
+        )
+    )
+}
+
 
 TemporalLiteralExpr TemporalLiteral():
 {
