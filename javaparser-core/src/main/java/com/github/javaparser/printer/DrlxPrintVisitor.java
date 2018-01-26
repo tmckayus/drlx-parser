@@ -22,6 +22,8 @@ import com.github.javaparser.ast.drlx.OOPathExpr;
 import com.github.javaparser.ast.drlx.RuleBody;
 import com.github.javaparser.ast.drlx.RuleDeclaration;
 import com.github.javaparser.ast.drlx.expr.DrlxExpression;
+import com.github.javaparser.ast.drlx.expr.HalfBinaryExpr;
+import com.github.javaparser.ast.drlx.expr.HalfPointFreeExpr;
 import com.github.javaparser.ast.drlx.expr.InlineCastExpr;
 import com.github.javaparser.ast.drlx.expr.NullSafeFieldAccessExpr;
 import com.github.javaparser.ast.drlx.expr.NullSafeMethodCallExpr;
@@ -110,7 +112,9 @@ public class DrlxPrintVisitor extends AbstractVoidRuleVisitor<Void, PrettyPrintV
             rightExprs.get(0).accept( visitor, arg );
         } else {
             visitor.printer.print("(");
-            rightExprs.get(0).accept( visitor, arg );
+            if(rightExprs.isNonEmpty()) {
+                rightExprs.get(0).accept(visitor, arg);
+            }
             for (int i = 1; i < rightExprs.size(); i++) {
                 visitor.printer.print(", ");
                 rightExprs.get(i).accept( visitor, arg );
@@ -177,6 +181,45 @@ public class DrlxPrintVisitor extends AbstractVoidRuleVisitor<Void, PrettyPrintV
             if(i != chunks.size() - 1) { // Avoid printing last /
                 visitor.printer.print("/");
             }
+        }
+    }
+
+    @Override
+    public void visit(HalfBinaryExpr n, Void arg) {
+        visitor.printComment(n.getComment(), arg);
+        visitor.printer.print(n.getOperator().asString());
+        visitor.printer.print(" ");
+        n.getRight().accept(visitor, arg);
+    }
+
+    @Override
+    public void visit(HalfPointFreeExpr pointFreeExpr, Void arg ) {
+        visitor.printComment(pointFreeExpr.getComment(), arg);
+        if(pointFreeExpr.isNegated()) {
+            visitor.printer.print("not ");
+        }
+        pointFreeExpr.getOperator().accept( visitor, arg );
+        if (pointFreeExpr.getArg1() != null) {
+            visitor.printer.print("[");
+            pointFreeExpr.getArg1().accept( visitor, arg );
+            if (pointFreeExpr.getArg2() != null) {
+                visitor.printer.print(",");
+                pointFreeExpr.getArg2().accept( visitor, arg );
+            }
+            visitor.printer.print("]");
+        }
+        visitor.printer.print(" ");
+        NodeList<Expression> rightExprs = pointFreeExpr.getRight();
+        if (rightExprs.size() == 1) {
+            rightExprs.get(0).accept( visitor, arg );
+        } else {
+            visitor.printer.print("(");
+            rightExprs.get(0).accept( visitor, arg );
+            for (int i = 1; i < rightExprs.size(); i++) {
+                visitor.printer.print(", ");
+                rightExprs.get(i).accept( visitor, arg );
+            }
+            visitor.printer.print(")");
         }
     }
 }

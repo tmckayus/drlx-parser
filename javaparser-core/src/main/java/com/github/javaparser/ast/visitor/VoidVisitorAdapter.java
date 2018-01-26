@@ -25,6 +25,7 @@ import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.comments.BlockComment;
 import com.github.javaparser.ast.comments.JavadocComment;
 import com.github.javaparser.ast.comments.LineComment;
+import com.github.javaparser.ast.drlx.expr.HalfBinaryExpr;
 import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.modules.*;
 import com.github.javaparser.ast.stmt.*;
@@ -104,13 +105,6 @@ public abstract class VoidVisitorAdapter<A> implements VoidVisitor<A> {
     @Generated("com.github.javaparser.generator.core.visitor.VoidVisitorAdapterGenerator")
     public void visit(final BinaryExpr n, final A arg) {
         n.getLeft().accept(this, arg);
-        n.getRight().accept(this, arg);
-        n.getComment().ifPresent(l -> l.accept(this, arg));
-    }
-
-    @Override
-    @Generated("com.github.javaparser.generator.core.visitor.VoidVisitorAdapterGenerator")
-    public void visit(final HalfBinaryExpr n, final A arg) {
         n.getRight().accept(this, arg);
         n.getComment().ifPresent(l -> l.accept(this, arg));
     }

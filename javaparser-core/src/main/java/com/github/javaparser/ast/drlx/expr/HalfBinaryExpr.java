@@ -18,13 +18,15 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
  */
-package com.github.javaparser.ast.expr;
+package com.github.javaparser.ast.drlx.expr;
 
 import javax.annotation.Generated;
 
 import com.github.javaparser.TokenRange;
 import com.github.javaparser.ast.AllFieldsConstructor;
 import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.expr.BooleanLiteralExpr;
+import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.observer.ObservableProperty;
 import com.github.javaparser.ast.visitor.CloneVisitor;
 import com.github.javaparser.ast.visitor.GenericVisitor;
@@ -89,7 +91,7 @@ public final class HalfBinaryExpr extends Expression {
 
     @Override
     public <A> void accept(VoidVisitor<A> v, A arg) {
-        v.visit(this, arg);
+        v.getRuleVisitor().visit(this, arg);
     }
 
     @Generated("com.github.javaparser.generator.core.node.PropertyGenerator")
