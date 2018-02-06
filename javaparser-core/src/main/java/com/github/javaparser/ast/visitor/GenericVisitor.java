@@ -314,4 +314,9 @@ public interface GenericVisitor<R, A> {
 
     @Generated("com.github.javaparser.generator.core.visitor.GenericVisitorGenerator")
     R visit(ReceiverParameter n, A arg);
+
+    GenericRuleVisitor DUMMY_RULE_VISITOR = new GenericRuleVisitor() {
+    };
+
+    GenericRuleVisitor<R, A> getRuleGenericVisitor();
 }

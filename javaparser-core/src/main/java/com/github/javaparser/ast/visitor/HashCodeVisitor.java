@@ -37,6 +37,13 @@ import javax.annotation.Generated;
  */
 public class HashCodeVisitor implements GenericVisitor<Integer, Void> {
 
+    private GenericRuleVisitor<Integer, Void> ruleVisitor = new GenericRuleVisitorAdapter<Integer, Void>();
+
+    @Override
+    public GenericRuleVisitor<Integer, Void> getRuleGenericVisitor() {
+        return ruleVisitor;
+    }
+
     private static final HashCodeVisitor SINGLETON = new HashCodeVisitor();
 
     private HashCodeVisitor() {
