@@ -40,6 +40,14 @@ import javax.annotation.Generated;
  */
 public abstract class GenericVisitorAdapter<R, A> implements GenericVisitor<R, A> {
 
+    private GenericRuleVisitor<R, A> ruleVisitor = new GenericRuleVisitorAdapter<R, A>();
+
+    @Override
+    public GenericRuleVisitor<R, A> getRuleGenericVisitor() {
+        return ruleVisitor;
+    }
+
+
     @Override
     @Generated("com.github.javaparser.generator.core.visitor.GenericVisitorAdapterGenerator")
     public R visit(final AnnotationDeclaration n, final A arg) {

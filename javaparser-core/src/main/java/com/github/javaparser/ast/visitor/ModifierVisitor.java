@@ -49,6 +49,14 @@ import java.util.Optional;
  */
 public class ModifierVisitor<A> implements GenericVisitor<Visitable, A> {
 
+    private GenericRuleVisitor<Visitable, A> ruleVisitor = new GenericRuleVisitorAdapter<Visitable, A>();
+
+    @Override
+    public GenericRuleVisitor<Visitable, A> getRuleGenericVisitor() {
+        return ruleVisitor;
+    }
+
+
     @Override
     @Generated("com.github.javaparser.generator.core.visitor.ModifierVisitorGenerator")
     public Visitable visit(final AnnotationDeclaration n, final A arg) {
