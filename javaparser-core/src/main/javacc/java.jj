@@ -291,7 +291,6 @@ TOKEN :
 | < TRANSITIVE: "transitive" >
 | < RULE: "rule" >
 | < NOT: "not" >
-| < NOT_WITH_SPACE: " not" >
 | < MVEL_STARTS_WITH: "str[startsWith]" >
 | < MVEL_ENDS_WITH: "str[endsWith]" >
 | < MVEL_LENGTH: "str[length]" >
@@ -3083,7 +3082,7 @@ Expression PointFreeExpr():
         (
             left = PrimaryExpression() { begin=token(); }
             (
-                          <NOT_WITH_SPACE>
+                          <NOT>
                           { negated = true; }
             )*
             (
@@ -3121,7 +3120,7 @@ Expression PointFreeExprMvel():
         (
             left = PrimaryExpression() { begin=token(); }
             (
-                          <NOT_WITH_SPACE>
+                          <NOT>
                           { negated = true; }
             )*
             (
