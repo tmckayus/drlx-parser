@@ -1,8 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <properties>
+        <maven.deploy.skip>false</maven.deploy.skip>
+        <kie-parent-version>7.16.0-SNAPSHOT</kie-parent-version>
+    </properties>
     <parent>
       <groupId>org.kie</groupId>
       <artifactId>kie-parent</artifactId>
-      <version>7.16.0-SNAPSHOT</version>
+      <version>${kie-parent-version}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     
@@ -11,9 +15,6 @@
     <packaging>bundle</packaging>
     <description>DRLX compiler</description>
 
-    <properties>
-        <maven.deploy.skip>false</maven.deploy.skip>
-    </properties>
 
     <!-- the below defines the artifact which is part of this Reactor but are actually maven.deploy.skip=TRUE -->
     <dependencyManagement>
