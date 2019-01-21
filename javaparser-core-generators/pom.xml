@@ -11,7 +11,7 @@
     <description>A code generator framework, and the generators for javaparser-core</description>
 
     <properties>
-        <maven.deploy.skip>true</maven.deploy.skip>
+        <maven.deploy.skip>false</maven.deploy.skip>
     </properties>
     
     <dependencies>
